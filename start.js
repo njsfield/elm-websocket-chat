@@ -1,10 +1,13 @@
 const WebSocket = require('ws');
-const server = require('./server');
+const server = require('./src/server');
 const restport = 3000;
 const socketport = 8000;
+const log = (msg) => process.stdout.write(`${msg}\n`);
 
-// Run REST server
-server.listen({port: restport});
+// Start REST server
+const liveserver = server.listen(restport, () => {
+  log(`Server live at http://localhost:${restport}/`);
+});
 
 // Run WebSocket server
 const wss = new WebSocket.Server({ port: socketport });
