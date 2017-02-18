@@ -20,4 +20,7 @@ socketserver.on('connection', (ws) => {
   ws.on('message', (message) => {
     comms(myRoom, socketserver, ws, message);
   });
+  ws.on('close', () => {
+    comms(myRoom, socketserver, ws);
+  });
 });

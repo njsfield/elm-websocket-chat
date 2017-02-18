@@ -8,17 +8,34 @@ const broadcast = (server, data) => {
   });
 };
 
+// Add endpoint
+const addEndpoint = (endpoint, name, server, room) => {
+  room.addEndpoint(endpoint);
+  room.updateEndpointName(endpoint, name);
+  broadcast(server, name + ' Joined the room');
+};
+
+// Remove endpoint
+const removeEndpoint = (endpoint, server, room) => {
+  let name = room.getEndpointName(endpoint);
+  room.removeEndpoint(endpoint);
+  broadcast(server, name + ' Left the room');
+};
+
+// New Message
+const newMessage = (endpoint, server, room, message) => {
+  let name = room.getEndpointName(endpoint);
+  broadcast(server, name + ' : ' + message);
+};
+
 // Main comms
 module.exports = (room, server, ws, message) => {
   const endpoint = getIdentifier(ws);
-  let name = '';
   if (!room.endpoints[endpoint]) {
-    name = message;
-    room.addEndpoint(endpoint);
-    room.updateEndpointName(endpoint, name);
-    broadcast(server, name + ' Joined the room');
+    addEndpoint(endpoint, message, server, room);
+  } else if (!message) {
+    removeEndpoint(endpoint, server, room);
   } else {
-    name = room.getEndpointName(endpoint);
-    broadcast(server, name + ' : ' + message);
+    newMessage(endpoint, server, room, message);
   }
 };
