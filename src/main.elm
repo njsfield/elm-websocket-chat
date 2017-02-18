@@ -32,12 +32,13 @@ type alias Model =
     { input : String
     , messages : List String
     , action : String
+    , prompt : String
     }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model "" [] "Join", Cmd.none )
+    ( Model "" [] "Join" "Enter your name to join", Cmd.none )
 
 
 
@@ -51,16 +52,16 @@ type Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
-update msg { input, messages, action } =
+update msg { input, messages, action, prompt } =
     case msg of
         Input newInput ->
-            ( Model newInput messages action, Cmd.none )
+            ( Model newInput messages action prompt, Cmd.none )
 
         Send ->
-            ( Model "" messages "Send", WebSocket.send echoServer input )
+            ( Model "" messages "Send" "Type a message to chat", WebSocket.send echoServer input )
 
         NewMessage str ->
-            ( Model input (str :: messages) action, Cmd.none )
+            ( Model input (str :: messages) action prompt, Cmd.none )
 
 
 
@@ -77,11 +78,11 @@ subscriptions model =
 
 
 view : Model -> Html Msg
-view model =
+view { input, messages, action, prompt } =
     div []
-        [ div [] (List.map viewMessage (List.reverse model.messages))
-        , input [ onInput Input, value model.input ] []
-        , button [ onClick Send ] [ text model.action ]
+        [ div [] (List.map viewMessage (List.reverse messages))
+        , Html.input [ onInput Input, value input, placeholder prompt ] []
+        , button [ onClick Send ] [ text action ]
         ]
 
 

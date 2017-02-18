@@ -9222,22 +9222,24 @@ var _user$project$Main$viewMessage = function (msg) {
 		});
 };
 var _user$project$Main$echoServer = 'ws://localhost:8000';
-var _user$project$Main$Model = F3(
-	function (a, b, c) {
-		return {input: a, messages: b, action: c};
+var _user$project$Main$Model = F4(
+	function (a, b, c, d) {
+		return {input: a, messages: b, action: c, prompt: d};
 	});
 var _user$project$Main$init = {
 	ctor: '_Tuple2',
-	_0: A3(
+	_0: A4(
 		_user$project$Main$Model,
 		'',
 		{ctor: '[]'},
-		'Join'),
+		'Join',
+		'Enter your name to join'),
 	_1: _elm_lang$core$Platform_Cmd$none
 };
 var _user$project$Main$update = F2(
 	function (msg, _p0) {
 		var _p1 = _p0;
+		var _p6 = _p1.prompt;
 		var _p5 = _p1.messages;
 		var _p4 = _p1.input;
 		var _p3 = _p1.action;
@@ -9246,23 +9248,24 @@ var _user$project$Main$update = F2(
 			case 'Input':
 				return {
 					ctor: '_Tuple2',
-					_0: A3(_user$project$Main$Model, _p2._0, _p5, _p3),
+					_0: A4(_user$project$Main$Model, _p2._0, _p5, _p3, _p6),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'Send':
 				return {
 					ctor: '_Tuple2',
-					_0: A3(_user$project$Main$Model, '', _p5, 'Send'),
+					_0: A4(_user$project$Main$Model, '', _p5, 'Send', 'Type a message to chat'),
 					_1: A2(_elm_lang$websocket$WebSocket$send, _user$project$Main$echoServer, _p4)
 				};
 			default:
 				return {
 					ctor: '_Tuple2',
-					_0: A3(
+					_0: A4(
 						_user$project$Main$Model,
 						_p4,
 						{ctor: '::', _0: _p2._0, _1: _p5},
-						_p3),
+						_p3,
+						_p6),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 		}
@@ -9277,7 +9280,8 @@ var _user$project$Main$Send = {ctor: 'Send'};
 var _user$project$Main$Input = function (a) {
 	return {ctor: 'Input', _0: a};
 };
-var _user$project$Main$view = function (model) {
+var _user$project$Main$view = function (_p7) {
+	var _p8 = _p7;
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -9289,7 +9293,7 @@ var _user$project$Main$view = function (model) {
 				A2(
 					_elm_lang$core$List$map,
 					_user$project$Main$viewMessage,
-					_elm_lang$core$List$reverse(model.messages))),
+					_elm_lang$core$List$reverse(_p8.messages))),
 			_1: {
 				ctor: '::',
 				_0: A2(
@@ -9299,8 +9303,12 @@ var _user$project$Main$view = function (model) {
 						_0: _elm_lang$html$Html_Events$onInput(_user$project$Main$Input),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$value(model.input),
-							_1: {ctor: '[]'}
+							_0: _elm_lang$html$Html_Attributes$value(_p8.input),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$placeholder(_p8.prompt),
+								_1: {ctor: '[]'}
+							}
 						}
 					},
 					{ctor: '[]'}),
@@ -9315,7 +9323,7 @@ var _user$project$Main$view = function (model) {
 						},
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html$text(model.action),
+							_0: _elm_lang$html$Html$text(_p8.action),
 							_1: {ctor: '[]'}
 						}),
 					_1: {ctor: '[]'}
