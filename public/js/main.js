@@ -9289,7 +9289,11 @@ var _user$project$Main$view = function (_p7) {
 			ctor: '::',
 			_0: A2(
 				_elm_lang$html$Html$div,
-				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('output'),
+					_1: {ctor: '[]'}
+				},
 				A2(
 					_elm_lang$core$List$map,
 					_user$project$Main$viewMessage,
@@ -9307,7 +9311,11 @@ var _user$project$Main$view = function (_p7) {
 							_1: {
 								ctor: '::',
 								_0: _elm_lang$html$Html_Attributes$placeholder(_p8.prompt),
-								_1: {ctor: '[]'}
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('input'),
+									_1: {ctor: '[]'}
+								}
 							}
 						}
 					},
@@ -9319,7 +9327,11 @@ var _user$project$Main$view = function (_p7) {
 						{
 							ctor: '::',
 							_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$Send),
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('submit'),
+								_1: {ctor: '[]'}
+							}
 						},
 						{
 							ctor: '::',

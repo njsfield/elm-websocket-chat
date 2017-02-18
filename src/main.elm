@@ -80,9 +80,9 @@ subscriptions model =
 view : Model -> Html Msg
 view { input, messages, action, prompt } =
     div []
-        [ div [] (List.map viewMessage (List.reverse messages))
-        , Html.input [ onInput Input, value input, placeholder prompt ] []
-        , button [ onClick Send ] [ text action ]
+        [ div [ class "output" ] (List.map viewMessage (List.reverse messages))
+        , Html.input [ onInput Input, value input, placeholder prompt, class "input" ] []
+        , button [ onClick Send, class "submit" ] [ text action ]
         ]
 
 
