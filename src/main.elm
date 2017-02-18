@@ -31,12 +31,13 @@ echoServer =
 type alias Model =
     { input : String
     , messages : List String
+    , action : String
     }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model "" [], WebSocket.send echoServer "JOIN" )
+    ( Model "" [] "Join", Cmd.none )
 
 
 
@@ -50,16 +51,16 @@ type Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
-update msg { input, messages } =
+update msg { input, messages, action } =
     case msg of
         Input newInput ->
-            ( Model newInput messages, Cmd.none )
+            ( Model newInput messages action, Cmd.none )
 
         Send ->
-            ( Model "" messages, WebSocket.send echoServer input )
+            ( Model "" messages "Send", WebSocket.send echoServer input )
 
         NewMessage str ->
-            ( Model input (str :: messages), Cmd.none )
+            ( Model input (str :: messages) action, Cmd.none )
 
 
 
@@ -78,12 +79,12 @@ subscriptions model =
 view : Model -> Html Msg
 view model =
     div []
-        [ input [ onInput Input, value model.input ] []
-        , button [ onClick Send ] [ text "Send" ]
-        , div [] (List.map viewMessage (List.reverse model.messages))
+        [ div [] (List.map viewMessage (List.reverse model.messages))
+        , input [ onInput Input, value model.input ] []
+        , button [ onClick Send ] [ text model.action ]
         ]
 
 
 viewMessage : String -> Html msg
 viewMessage msg =
-    div [] [ text msg ]
+    p [] [ text msg ]

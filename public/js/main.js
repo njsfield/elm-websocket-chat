@@ -9213,7 +9213,7 @@ _elm_lang$core$Native_Platform.effectManagers['WebSocket'] = {pkg: 'elm-lang/web
 
 var _user$project$Main$viewMessage = function (msg) {
 	return A2(
-		_elm_lang$html$Html$div,
+		_elm_lang$html$Html$p,
 		{ctor: '[]'},
 		{
 			ctor: '::',
@@ -9222,44 +9222,47 @@ var _user$project$Main$viewMessage = function (msg) {
 		});
 };
 var _user$project$Main$echoServer = 'ws://localhost:8000';
-var _user$project$Main$Model = F2(
-	function (a, b) {
-		return {input: a, messages: b};
+var _user$project$Main$Model = F3(
+	function (a, b, c) {
+		return {input: a, messages: b, action: c};
 	});
 var _user$project$Main$init = {
 	ctor: '_Tuple2',
-	_0: A2(
+	_0: A3(
 		_user$project$Main$Model,
 		'',
-		{ctor: '[]'}),
-	_1: A2(_elm_lang$websocket$WebSocket$send, _user$project$Main$echoServer, 'JOIN')
+		{ctor: '[]'},
+		'Join'),
+	_1: _elm_lang$core$Platform_Cmd$none
 };
 var _user$project$Main$update = F2(
 	function (msg, _p0) {
 		var _p1 = _p0;
-		var _p4 = _p1.messages;
-		var _p3 = _p1.input;
+		var _p5 = _p1.messages;
+		var _p4 = _p1.input;
+		var _p3 = _p1.action;
 		var _p2 = msg;
 		switch (_p2.ctor) {
 			case 'Input':
 				return {
 					ctor: '_Tuple2',
-					_0: A2(_user$project$Main$Model, _p2._0, _p4),
+					_0: A3(_user$project$Main$Model, _p2._0, _p5, _p3),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'Send':
 				return {
 					ctor: '_Tuple2',
-					_0: A2(_user$project$Main$Model, '', _p4),
-					_1: A2(_elm_lang$websocket$WebSocket$send, _user$project$Main$echoServer, _p3)
+					_0: A3(_user$project$Main$Model, '', _p5, 'Send'),
+					_1: A2(_elm_lang$websocket$WebSocket$send, _user$project$Main$echoServer, _p4)
 				};
 			default:
 				return {
 					ctor: '_Tuple2',
-					_0: A2(
+					_0: A3(
 						_user$project$Main$Model,
-						_p3,
-						{ctor: '::', _0: _p2._0, _1: _p4}),
+						_p4,
+						{ctor: '::', _0: _p2._0, _1: _p5},
+						_p3),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 		}
@@ -9281,40 +9284,40 @@ var _user$project$Main$view = function (model) {
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$input,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Events$onInput(_user$project$Main$Input),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$value(model.input),
-						_1: {ctor: '[]'}
-					}
-				},
-				{ctor: '[]'}),
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				A2(
+					_elm_lang$core$List$map,
+					_user$project$Main$viewMessage,
+					_elm_lang$core$List$reverse(model.messages))),
 			_1: {
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$button,
+					_elm_lang$html$Html$input,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$Send),
-						_1: {ctor: '[]'}
+						_0: _elm_lang$html$Html_Events$onInput(_user$project$Main$Input),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$value(model.input),
+							_1: {ctor: '[]'}
+						}
 					},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text('Send'),
-						_1: {ctor: '[]'}
-					}),
+					{ctor: '[]'}),
 				_1: {
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$div,
-						{ctor: '[]'},
-						A2(
-							_elm_lang$core$List$map,
-							_user$project$Main$viewMessage,
-							_elm_lang$core$List$reverse(model.messages))),
+						_elm_lang$html$Html$button,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$Send),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(model.action),
+							_1: {ctor: '[]'}
+						}),
 					_1: {ctor: '[]'}
 				}
 			}
