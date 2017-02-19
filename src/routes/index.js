@@ -8,6 +8,7 @@ const routes = {
 };
 
 module.exports = function (request, response) {
+  console.log(url, ext);
   var url = request.url;
   var ext = path.extname(url);
 
