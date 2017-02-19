@@ -9222,23 +9222,25 @@ var _user$project$Main$viewMessage = function (msg) {
 		});
 };
 var _user$project$Main$echoServer = 'ws://localhost:8000';
-var _user$project$Main$Model = F4(
-	function (a, b, c, d) {
-		return {input: a, messages: b, action: c, prompt: d};
+var _user$project$Main$Model = F5(
+	function (a, b, c, d, e) {
+		return {input: a, messages: b, action: c, prompt: d, windowstyle: e};
 	});
 var _user$project$Main$init = {
 	ctor: '_Tuple2',
-	_0: A4(
+	_0: A5(
 		_user$project$Main$Model,
 		'',
 		{ctor: '[]'},
 		'Join',
-		'Enter your name to join'),
+		'Enter your name to join',
+		'start'),
 	_1: _elm_lang$core$Platform_Cmd$none
 };
 var _user$project$Main$update = F2(
 	function (msg, _p0) {
 		var _p1 = _p0;
+		var _p7 = _p1.windowstyle;
 		var _p6 = _p1.prompt;
 		var _p5 = _p1.messages;
 		var _p4 = _p1.input;
@@ -9248,24 +9250,25 @@ var _user$project$Main$update = F2(
 			case 'Input':
 				return {
 					ctor: '_Tuple2',
-					_0: A4(_user$project$Main$Model, _p2._0, _p5, _p3, _p6),
+					_0: A5(_user$project$Main$Model, _p2._0, _p5, _p3, _p6, _p7),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'Send':
 				return {
 					ctor: '_Tuple2',
-					_0: A4(_user$project$Main$Model, '', _p5, 'Send', 'Type a message to chat'),
+					_0: A5(_user$project$Main$Model, '', _p5, 'Send', 'Type a message to chat', 'joined'),
 					_1: A2(_elm_lang$websocket$WebSocket$send, _user$project$Main$echoServer, _p4)
 				};
 			default:
 				return {
 					ctor: '_Tuple2',
-					_0: A4(
+					_0: A5(
 						_user$project$Main$Model,
 						_p4,
 						{ctor: '::', _0: _p2._0, _1: _p5},
 						_p3,
-						_p6),
+						_p6,
+						_p7),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 		}
@@ -9280,67 +9283,93 @@ var _user$project$Main$Send = {ctor: 'Send'};
 var _user$project$Main$Input = function (a) {
 	return {ctor: 'Input', _0: a};
 };
-var _user$project$Main$view = function (_p7) {
-	var _p8 = _p7;
+var _user$project$Main$view = function (_p8) {
+	var _p9 = _p8;
 	return A2(
 		_elm_lang$html$Html$div,
-		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class(_p9.windowstyle),
+			_1: {ctor: '[]'}
+		},
 		{
 			ctor: '::',
 			_0: A2(
 				_elm_lang$html$Html$div,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('output'),
+					_0: _elm_lang$html$Html_Attributes$class('component'),
 					_1: {ctor: '[]'}
 				},
-				A2(
-					_elm_lang$core$List$map,
-					_user$project$Main$viewMessage,
-					_elm_lang$core$List$reverse(_p8.messages))),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$input,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Events$onInput(_user$project$Main$Input),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$value(_p8.input),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$placeholder(_p8.prompt),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('input'),
-									_1: {ctor: '[]'}
-								}
-							}
-						}
-					},
-					{ctor: '[]'}),
-				_1: {
+				{
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$button,
+						_elm_lang$html$Html$div,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$Send),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('submit'),
-								_1: {ctor: '[]'}
-							}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(_p8.action),
+							_0: _elm_lang$html$Html_Attributes$class('output'),
 							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}
-			}
+						},
+						A2(
+							_elm_lang$core$List$map,
+							_user$project$Main$viewMessage,
+							_elm_lang$core$List$reverse(_p9.messages))),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('controls'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$input,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onInput(_user$project$Main$Input),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$value(_p9.input),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$placeholder(_p9.prompt),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('input'),
+													_1: {ctor: '[]'}
+												}
+											}
+										}
+									},
+									{ctor: '[]'}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$button,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$Send),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$class('submit'),
+												_1: {ctor: '[]'}
+											}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text(_p9.action),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}
+							}),
+						_1: {ctor: '[]'}
+					}
+				}),
+			_1: {ctor: '[]'}
 		});
 };
 var _user$project$Main$main = _elm_lang$html$Html$program(

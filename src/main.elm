@@ -1,7 +1,3 @@
--- Read more about this program in the official Elm guide:
--- https://guide.elm-lang.org/architecture/effects/web_sockets.html
-
-
 module Main exposing (..)
 
 import Html exposing (..)
@@ -33,12 +29,13 @@ type alias Model =
     , messages : List String
     , action : String
     , prompt : String
+    , windowstyle : String
     }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model "" [] "Join" "Enter your name to join", Cmd.none )
+    ( Model "" [] "Join" "Enter your name to join" "start", Cmd.none )
 
 
 
@@ -52,16 +49,16 @@ type Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
-update msg { input, messages, action, prompt } =
+update msg { input, messages, action, prompt, windowstyle } =
     case msg of
         Input newInput ->
-            ( Model newInput messages action prompt, Cmd.none )
+            ( Model newInput messages action prompt windowstyle, Cmd.none )
 
         Send ->
-            ( Model "" messages "Send" "Type a message to chat", WebSocket.send echoServer input )
+            ( Model "" messages "Send" "Type a message to chat" "joined", WebSocket.send echoServer input )
 
         NewMessage str ->
-            ( Model input (str :: messages) action prompt, Cmd.none )
+            ( Model input (str :: messages) action prompt windowstyle, Cmd.none )
 
 
 
@@ -78,11 +75,15 @@ subscriptions model =
 
 
 view : Model -> Html Msg
-view { input, messages, action, prompt } =
-    div []
-        [ div [ class "output" ] (List.map viewMessage (List.reverse messages))
-        , Html.input [ onInput Input, value input, placeholder prompt, class "input" ] []
-        , button [ onClick Send, class "submit" ] [ text action ]
+view { input, windowstyle, messages, action, prompt } =
+    div [ class windowstyle ]
+        [ div [ class "component" ]
+            [ div [ class "output" ] (List.map viewMessage (List.reverse messages))
+            , div [ class "controls" ]
+                [ Html.input [ onInput Input, value input, placeholder prompt, class "input" ] []
+                , button [ onClick Send, class "submit" ] [ text action ]
+                ]
+            ]
         ]
 
 

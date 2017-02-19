@@ -1,53 +1,122 @@
 /* Generic */
+* {
+  box-sizing: border-box;
+  transition: all .25s ease;
+}
 
 body {
-  padding: 10px;
-}
-input, p, h1, h2, h3, h4 {
-  font-family: 'Roboto', sans-serif;
 }
 
+input, p, h1, h2, h3, h4 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+}
+
+
+/* Controls */
 input, button {
-    font-size: 18px;
-    margin-top: 20px;
+    font-size: 1.2rem;
     font-weight: 300;
-    padding: 10px;
+    padding: 1rem;
+    border: none;
 }
 
 input {
-    min-width: 500px;
+   width: 100%;
+   border-top-left-radius: .5rem;
+   border-bottom-left-radius: .5rem;
 }
 
-button:focus, input:focus {
-    outline: none;
-}
-
-label {
-    display: inline-block;
-    width: 40px;
-}
 
 button {
-    border: 2px solid lightblue;
+    border: none;
     background: lightblue;
     color: white;
-    width: 94px;
+    width: 8rem;
     cursor: pointer;
-    transition: opacity .3s ease;
+    border-top-right-radius: .5rem;
+    border-bottom-right-radius: .5rem;
+}
+button:focus, input:focus {
+    outline: none;
 }
 
 button:hover {
     opacity: 0.5;
 }
 
+/* Output */
+
 p {
-    line-height: 5px;
+  position: relative;
+  left: -5%;
+  opacity: 0;
+  animation: slidein .3s ease forwards;
 }
 
-/* Class */
+@keyframes slidein {
+  100% {opacity: 1; left: 0%;}
+}
+
+/* Classes */
 .output {
     border: 1px solid lightgrey;
-    height: 400px;
-    width: 596px;
-    padding: 10px;
+    height: 30rem;
+    padding: 1rem;
+    border-radius: .5rem;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 0;
+}
+
+.component {
+  position: absolute;
+  width: 95%;
+  top: 50%;
+  left: 50%;
+  max-width: 50rem;
+  transform: translate(-50%, -50%);
+}
+
+
+/* Start */
+.start {
+  width: 100vw;
+  height: 100vh;
+  background-color: #0C3082;
+}
+
+.start .output {
+  background-color: #7986CB;
+  border: none;
+}
+.start input {
+  background-color: #FFFDE7;
+  color: black;
+}
+.start button {
+  background-color: #009688;
+}
+
+/* Joined */
+
+.joined {
+  width: 100vw;
+  height: 100vh;
+  background-color: #9FA8DA;
+}
+
+.joined .output {
+  background-color: #E8EAF6;
+  border: none;
+}
+.joined input {
+  background-color: white;
+  color: black;
+}
+.joined button {
+  background-color: #B2DFDB;
 }

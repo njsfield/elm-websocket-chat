@@ -1,7 +1,7 @@
 {
   "name": "elm-websocket-chat",
   "version": "1.0.0",
-  "description": "A chat application using elm",
+  "description": "A chat application using elm and Websockets",
   "main": "index.js",
   "scripts": {
     "start": "nodemon start.js",
