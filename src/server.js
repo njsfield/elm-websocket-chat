@@ -1,7 +1,7 @@
-const http = require('http');
+const https = require('https');
 
 // Router
 const router = require('./routes');
 
 // Export Server
-module.exports = http.createServer(router);
+module.exports = https.createServer(router);
