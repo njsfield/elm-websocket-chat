@@ -1,4 +1,4 @@
-const WebSocket = require('ws');
+const WebSocketServer = require('ws').Server;
 const server = require('./src/server');
 const Room = require('./src/room');
 const comms = require('./src/comms');
@@ -17,7 +17,7 @@ server.listen(port, () => {
 });
 
 // Run WebSocket server
-const socketserver = new WebSocket.Server({port: 8000});
+const socketserver = new WebSocketServer({server: server});
 
 // Handle messages
 socketserver.on('connection', (ws) => {
