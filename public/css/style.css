@@ -77,7 +77,6 @@ p {
     overflow: scroll;
 }
 
-@media screen and (min-width: 400px) { .output {height: 30rem;}}
 
 .controls {
   display: flex;
