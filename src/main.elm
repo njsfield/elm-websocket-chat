@@ -3,7 +3,8 @@ module Main exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import WebSocket
+import WebSocket exposing (listen)
+import List exposing (reverse)
 import Ports exposing (getport, portreply)
 
 
@@ -17,9 +18,6 @@ main =
 
 
 
--- echoServer : String
--- echoServer =
---     "ws://localhost:8000"
 -- MODEL
 
 
@@ -69,7 +67,14 @@ update msg model =
             ( { model | input = newInput }, Cmd.none )
 
         Send ->
-            ( { model | input = "", action = "Send", prompt = "Type a message to chat", windowstyle = "joined" }, WebSocket.send model.echoserver model.input )
+            ( { model
+                | input = ""
+                , action = "Send"
+                , prompt = "Type a message to chat"
+                , windowstyle = "joined"
+              }
+            , WebSocket.send model.echoserver model.input
+            )
 
         NewMessage str ->
             ( { model | messages = (str :: model.messages) }, Cmd.none )
@@ -82,7 +87,7 @@ update msg model =
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch
-        [ WebSocket.listen model.echoserver NewMessage
+        [ listen model.echoserver NewMessage
         , portreply Socketport
         ]
 
@@ -95,10 +100,20 @@ view : Model -> Html Msg
 view { input, windowstyle, messages, action, prompt } =
     div [ class windowstyle ]
         [ div [ class "component" ]
-            [ div [ class "output" ] (List.map viewMessage (List.reverse messages))
+            [ div [ class "output" ] (List.map viewMessage (reverse messages))
             , div [ class "controls" ]
-                [ Html.input [ onInput Input, value input, placeholder prompt, class "input" ] []
-                , button [ onClick Send, class "submit" ] [ text action ]
+                [ Html.input
+                    [ onInput Input
+                    , value input
+                    , placeholder prompt
+                    , class "input"
+                    ]
+                    []
+                , button
+                    [ onClick Send
+                    , class "submit"
+                    ]
+                    [ text action ]
                 ]
             ]
         ]
