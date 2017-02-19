@@ -1,5 +1,7 @@
 # Elm Websocket Chatroom
 
+![Chatroom Screenshot](./public/images/chatroom-screenshot.png)
+
 ### Install
 
 Clone
