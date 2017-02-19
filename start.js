@@ -2,7 +2,7 @@ const WebSocket = require('ws');
 const server = require('./src/server');
 const Room = require('./src/room');
 const comms = require('./src/comms');
-const port = process.env.port || 3000;
+const port = process.env.PORT || 3000;
 const log = (msg) => process.stdout.write(`${msg}\n`);
 const env = require('env2');
 
