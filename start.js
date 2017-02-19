@@ -13,7 +13,7 @@ env('./config.env');
 const myRoom = new Room(process.env.roomname);
 // Start REST server
 server.listen(port, () => {
-  log(`Server live at http://localhost:${port}/`);
+  log(`Server live at  ${port}/`);
 });
 
 // Run WebSocket server
