@@ -22,7 +22,7 @@
       app.ports.getport.subscribe(replyToElm)
       // Reply to Elm
       function replyToElm(message){
-        app.ports.portreply.send("ws://localhost:8000");
+        app.ports.portreply.send("{{socketport}}");
       }
 </script>
 
