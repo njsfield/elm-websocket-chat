@@ -9211,6 +9211,12 @@ var _elm_lang$websocket$WebSocket$onSelfMsg = F3(
 	});
 _elm_lang$core$Native_Platform.effectManagers['WebSocket'] = {pkg: 'elm-lang/websocket', init: _elm_lang$websocket$WebSocket$init, onEffects: _elm_lang$websocket$WebSocket$onEffects, onSelfMsg: _elm_lang$websocket$WebSocket$onSelfMsg, tag: 'fx', cmdMap: _elm_lang$websocket$WebSocket$cmdMap, subMap: _elm_lang$websocket$WebSocket$subMap};
 
+var _user$project$Main$onKeyDown = function (tagger) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'keydown',
+		A2(_elm_lang$core$Json_Decode$map, tagger, _elm_lang$html$Html_Events$keyCode));
+};
 var _user$project$Main$viewMessage = function (msg) {
 	return A2(
 		_elm_lang$html$Html$p,
@@ -9241,6 +9247,14 @@ var _user$project$Main$update = F2(
 						{input: _p0._0}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
+			case 'KeyDown':
+				return _elm_lang$core$Native_Utils.eq(_p0._0, 13) ? {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{input: '', action: 'Send', prompt: 'Type a message to chat', windowstyle: 'joined'}),
+					_1: A2(_elm_lang$websocket$WebSocket$send, model.echoserver, model.input)
+				} : {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'Send':
 				return {
 					ctor: '_Tuple2',
@@ -9291,6 +9305,9 @@ var _user$project$Main$Send = {ctor: 'Send'};
 var _user$project$Main$Input = function (a) {
 	return {ctor: 'Input', _0: a};
 };
+var _user$project$Main$KeyDown = function (a) {
+	return {ctor: 'KeyDown', _0: a};
+};
 var _user$project$Main$view = function (_p1) {
 	var _p2 = _p1;
 	return A2(
@@ -9340,14 +9357,18 @@ var _user$project$Main$view = function (_p1) {
 										_0: _elm_lang$html$Html_Events$onInput(_user$project$Main$Input),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$value(_p2.input),
+											_0: _user$project$Main$onKeyDown(_user$project$Main$KeyDown),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$placeholder(_p2.prompt),
+												_0: _elm_lang$html$Html_Attributes$value(_p2.input),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$class('input'),
-													_1: {ctor: '[]'}
+													_0: _elm_lang$html$Html_Attributes$placeholder(_p2.prompt),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$class('input'),
+														_1: {ctor: '[]'}
+													}
 												}
 											}
 										}

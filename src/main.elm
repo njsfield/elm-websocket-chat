@@ -5,6 +5,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import WebSocket exposing (listen)
 import List exposing (reverse)
+import Json.Decode as Json
 
 
 -- PROGRAM
@@ -64,6 +65,7 @@ init =
 
 type Msg
     = Socketport String
+    | KeyDown Int
     | Input String
     | Send
     | NewMessage String
@@ -77,6 +79,19 @@ update msg model =
 
         Input newInput ->
             ( { model | input = newInput }, Cmd.none )
+
+        KeyDown key ->
+            if key == 13 then
+                ( { model
+                    | input = ""
+                    , action = "Send"
+                    , prompt = "Type a message to chat"
+                    , windowstyle = "joined"
+                  }
+                , WebSocket.send model.echoserver model.input
+                )
+            else
+                ( model, Cmd.none )
 
         Send ->
             ( { model
@@ -116,6 +131,7 @@ view { input, windowstyle, messages, action, prompt } =
             , div [ class "controls" ]
                 [ Html.input
                     [ onInput Input
+                    , onKeyDown KeyDown
                     , value input
                     , placeholder prompt
                     , class "input"
@@ -134,3 +150,8 @@ view { input, windowstyle, messages, action, prompt } =
 viewMessage : String -> Html msg
 viewMessage msg =
     p [] [ text msg ]
+
+
+onKeyDown : (Int -> msg) -> Attribute msg
+onKeyDown tagger =
+    on "keydown" (Json.map tagger keyCode)
