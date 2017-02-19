@@ -1,11 +1,13 @@
-module Main exposing (..)
+port module Main exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import WebSocket exposing (listen)
 import List exposing (reverse)
-import Ports exposing (getport, portreply)
+
+
+-- PROGRAM
 
 
 main =
@@ -15,6 +17,16 @@ main =
         , update = update
         , subscriptions = subscriptions
         }
+
+
+
+-- PORTS
+
+
+port getport : String -> Cmd msg
+
+
+port portreply : (String -> msg) -> Sub msg
 
 
 

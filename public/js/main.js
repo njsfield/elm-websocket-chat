@@ -9211,13 +9211,6 @@ var _elm_lang$websocket$WebSocket$onSelfMsg = F3(
 	});
 _elm_lang$core$Native_Platform.effectManagers['WebSocket'] = {pkg: 'elm-lang/websocket', init: _elm_lang$websocket$WebSocket$init, onEffects: _elm_lang$websocket$WebSocket$onEffects, onSelfMsg: _elm_lang$websocket$WebSocket$onSelfMsg, tag: 'fx', cmdMap: _elm_lang$websocket$WebSocket$cmdMap, subMap: _elm_lang$websocket$WebSocket$subMap};
 
-var _user$project$Ports$getport = _elm_lang$core$Native_Platform.outgoingPort(
-	'getport',
-	function (v) {
-		return v;
-	});
-var _user$project$Ports$portreply = _elm_lang$core$Native_Platform.incomingPort('portreply', _elm_lang$core$Json_Decode$string);
-
 var _user$project$Main$viewMessage = function (msg) {
 	return A2(
 		_elm_lang$html$Html$p,
@@ -9276,11 +9269,17 @@ var _user$project$Main$model = {
 	windowstyle: 'start',
 	echoserver: ''
 };
+var _user$project$Main$getport = _elm_lang$core$Native_Platform.outgoingPort(
+	'getport',
+	function (v) {
+		return v;
+	});
 var _user$project$Main$init = {
 	ctor: '_Tuple2',
 	_0: _user$project$Main$model,
-	_1: _user$project$Ports$getport('PORTREQUIRED')
+	_1: _user$project$Main$getport('PORTREQUIRED')
 };
+var _user$project$Main$portreply = _elm_lang$core$Native_Platform.incomingPort('portreply', _elm_lang$core$Json_Decode$string);
 var _user$project$Main$Model = F6(
 	function (a, b, c, d, e, f) {
 		return {input: a, messages: b, action: c, prompt: d, windowstyle: e, echoserver: f};
@@ -9391,7 +9390,7 @@ var _user$project$Main$subscriptions = function (model) {
 			_0: A2(_elm_lang$websocket$WebSocket$listen, model.echoserver, _user$project$Main$NewMessage),
 			_1: {
 				ctor: '::',
-				_0: _user$project$Ports$portreply(_user$project$Main$Socketport),
+				_0: _user$project$Main$portreply(_user$project$Main$Socketport),
 				_1: {ctor: '[]'}
 			}
 		});
