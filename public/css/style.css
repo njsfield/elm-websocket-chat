@@ -71,11 +71,13 @@ p {
 
 /* Classes */
 .output {
-    height: 25rem;
+    height: 20rem;
     padding: 1rem;
     border-radius: .5rem;
     overflow: scroll;
 }
+
+@media screen and (min-width: 400px) { .output {height: 30rem;}}
 
 .controls {
   display: flex;
