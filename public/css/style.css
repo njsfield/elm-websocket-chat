@@ -74,6 +74,7 @@ p {
     height: 25rem;
     padding: 1rem;
     border-radius: .5rem;
+    overflow: scroll;
 }
 
 .controls {
