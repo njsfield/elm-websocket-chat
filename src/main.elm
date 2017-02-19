@@ -4,6 +4,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import WebSocket
+import Ports exposing (getport, portreply)
 
 
 main =
@@ -15,12 +16,10 @@ main =
         }
 
 
-echoServer : String
-echoServer =
-    "ws://localhost:8000"
 
-
-
+-- echoServer : String
+-- echoServer =
+--     "ws://localhost:8000"
 -- MODEL
 
 
@@ -30,6 +29,7 @@ type alias Model =
     , action : String
     , prompt : String
     , windowstyle : String
+    , echoserver : String
     }
 
 
@@ -39,12 +39,13 @@ model =
     , action = "Join"
     , prompt = "Enter your name to join"
     , windowstyle = "start"
+    , echoserver = ""
     }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( model, Cmd.none )
+    ( model, getport "PORTREQUIRED" )
 
 
 
@@ -52,7 +53,8 @@ init =
 
 
 type Msg
-    = Input String
+    = Socketport String
+    | Input String
     | Send
     | NewMessage String
 
@@ -60,11 +62,14 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        Socketport socketport ->
+            ( { model | echoserver = socketport }, Cmd.none )
+
         Input newInput ->
             ( { model | input = newInput }, Cmd.none )
 
         Send ->
-            ( { model | input = "", action = "Send", prompt = "Type a message to chat", windowstyle = "joined" }, WebSocket.send echoServer model.input )
+            ( { model | input = "", action = "Send", prompt = "Type a message to chat", windowstyle = "joined" }, WebSocket.send model.echoserver model.input )
 
         NewMessage str ->
             ( { model | messages = (str :: model.messages) }, Cmd.none )
@@ -76,7 +81,10 @@ update msg model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    WebSocket.listen echoServer NewMessage
+    Sub.batch
+        [ WebSocket.listen model.echoserver NewMessage
+        , portreply Socketport
+        ]
 
 
 

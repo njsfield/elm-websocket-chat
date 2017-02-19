@@ -9211,6 +9211,13 @@ var _elm_lang$websocket$WebSocket$onSelfMsg = F3(
 	});
 _elm_lang$core$Native_Platform.effectManagers['WebSocket'] = {pkg: 'elm-lang/websocket', init: _elm_lang$websocket$WebSocket$init, onEffects: _elm_lang$websocket$WebSocket$onEffects, onSelfMsg: _elm_lang$websocket$WebSocket$onSelfMsg, tag: 'fx', cmdMap: _elm_lang$websocket$WebSocket$cmdMap, subMap: _elm_lang$websocket$WebSocket$subMap};
 
+var _user$project$Ports$getport = _elm_lang$core$Native_Platform.outgoingPort(
+	'getport',
+	function (v) {
+		return v;
+	});
+var _user$project$Ports$portreply = _elm_lang$core$Native_Platform.incomingPort('portreply', _elm_lang$core$Json_Decode$string);
+
 var _user$project$Main$viewMessage = function (msg) {
 	return A2(
 		_elm_lang$html$Html$p,
@@ -9221,19 +9228,18 @@ var _user$project$Main$viewMessage = function (msg) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Main$model = {
-	input: '',
-	messages: {ctor: '[]'},
-	action: 'Join',
-	prompt: 'Enter your name to join',
-	windowstyle: 'start'
-};
-var _user$project$Main$init = {ctor: '_Tuple2', _0: _user$project$Main$model, _1: _elm_lang$core$Platform_Cmd$none};
-var _user$project$Main$echoServer = 'ws://localhost:8000';
 var _user$project$Main$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
 		switch (_p0.ctor) {
+			case 'Socketport':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{echoserver: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 			case 'Input':
 				return {
 					ctor: '_Tuple2',
@@ -9248,7 +9254,7 @@ var _user$project$Main$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{input: '', action: 'Send', prompt: 'Type a message to chat', windowstyle: 'joined'}),
-					_1: A2(_elm_lang$websocket$WebSocket$send, _user$project$Main$echoServer, model.input)
+					_1: A2(_elm_lang$websocket$WebSocket$send, model.echoserver, model.input)
 				};
 			default:
 				return {
@@ -9262,15 +9268,25 @@ var _user$project$Main$update = F2(
 				};
 		}
 	});
-var _user$project$Main$Model = F5(
-	function (a, b, c, d, e) {
-		return {input: a, messages: b, action: c, prompt: d, windowstyle: e};
+var _user$project$Main$model = {
+	input: '',
+	messages: {ctor: '[]'},
+	action: 'Join',
+	prompt: 'Enter your name to join',
+	windowstyle: 'start',
+	echoserver: ''
+};
+var _user$project$Main$init = {
+	ctor: '_Tuple2',
+	_0: _user$project$Main$model,
+	_1: _user$project$Ports$getport('PORTREQUIRED')
+};
+var _user$project$Main$Model = F6(
+	function (a, b, c, d, e, f) {
+		return {input: a, messages: b, action: c, prompt: d, windowstyle: e, echoserver: f};
 	});
 var _user$project$Main$NewMessage = function (a) {
 	return {ctor: 'NewMessage', _0: a};
-};
-var _user$project$Main$subscriptions = function (model) {
-	return A2(_elm_lang$websocket$WebSocket$listen, _user$project$Main$echoServer, _user$project$Main$NewMessage);
 };
 var _user$project$Main$Send = {ctor: 'Send'};
 var _user$project$Main$Input = function (a) {
@@ -9363,6 +9379,21 @@ var _user$project$Main$view = function (_p1) {
 					}
 				}),
 			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Main$Socketport = function (a) {
+	return {ctor: 'Socketport', _0: a};
+};
+var _user$project$Main$subscriptions = function (model) {
+	return _elm_lang$core$Platform_Sub$batch(
+		{
+			ctor: '::',
+			_0: A2(_elm_lang$websocket$WebSocket$listen, model.echoserver, _user$project$Main$NewMessage),
+			_1: {
+				ctor: '::',
+				_0: _user$project$Ports$portreply(_user$project$Main$Socketport),
+				_1: {ctor: '[]'}
+			}
 		});
 };
 var _user$project$Main$main = _elm_lang$html$Html$program(

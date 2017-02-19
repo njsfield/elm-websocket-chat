@@ -17,7 +17,13 @@
 </body>
 
 <script type="text/javascript">
-  var app = Elm.Main.embed(document.getElementById("output"))
+  var app = Elm.Main.embed(document.getElementById("output"));
+      // Wait for Elms message
+      app.ports.getport.subscribe(replyToElm)
+      // Reply to Elm
+      function replyToElm(message){
+        app.ports.portreply.send("ws://localhost:8000");
+      }
 </script>
 
 </html>
