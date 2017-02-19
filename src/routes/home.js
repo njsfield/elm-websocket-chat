@@ -7,7 +7,7 @@ module.exports = (request, response) => {
     data = data.replace(/{{socketport}}/, process.env.socketport);
     data = data.replace(/{{roomname}}/, process.env.roomname);
     response.writeHead(200, {'Content-type': 'text/html'});
-    response.write('hello');
+    response.write(data);
     response.end();
   });
 };
