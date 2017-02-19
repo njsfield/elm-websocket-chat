@@ -4,7 +4,8 @@
   "description": "A chat application using elm and Websockets",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon start.js",
+    "start": "node start.js",
+    "dev": "nodemon start.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
