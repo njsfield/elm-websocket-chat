@@ -12,7 +12,7 @@ const broadcast = (server, data) => {
 const addEndpoint = (endpoint, name, server, room) => {
   room.addEndpoint(endpoint);
   room.updateEndpointName(endpoint, name);
-  broadcast(server, name + ' Joined the room');
+  broadcast(server, name ? name + ' Joined the room' : 'A spy left the room');
 };
 
 // Remove endpoint

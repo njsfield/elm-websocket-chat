@@ -12,6 +12,17 @@ input, p, h1, h2, h3, h4 {
   font-weight: 300;
 }
 
+h1 {
+  font-size: 2rem;
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  font-weight: 100;
+  position: absolute;
+  width: 100vw;
+  top: 0;
+  left: 0;
+}
+
 
 /* Controls */
 input, button {
@@ -60,7 +71,7 @@ p {
 
 /* Classes */
 .output {
-    height: 30rem;
+    height: 25rem;
     padding: 1rem;
     border-radius: .5rem;
 }
