@@ -4,6 +4,7 @@ const routes = {
   '404': require('./404'),
   '/': require('./home'),
   '.js': require('./files'),
+  '.txt': require('./files'),
   '.css': require('./files')
 };
 
