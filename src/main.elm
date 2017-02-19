@@ -33,9 +33,18 @@ type alias Model =
     }
 
 
+model =
+    { input = ""
+    , messages = []
+    , action = "Join"
+    , prompt = "Enter your name to join"
+    , windowstyle = "start"
+    }
+
+
 init : ( Model, Cmd Msg )
 init =
-    ( Model "" [] "Join" "Enter your name to join" "start", Cmd.none )
+    ( model, Cmd.none )
 
 
 
@@ -49,16 +58,16 @@ type Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
-update msg { input, messages, action, prompt, windowstyle } =
+update msg model =
     case msg of
         Input newInput ->
-            ( Model newInput messages action prompt windowstyle, Cmd.none )
+            ( { model | input = newInput }, Cmd.none )
 
         Send ->
-            ( Model "" messages "Send" "Type a message to chat" "joined", WebSocket.send echoServer input )
+            ( { model | input = "", action = "Send", prompt = "Type a message to chat", windowstyle = "joined" }, WebSocket.send echoServer model.input )
 
         NewMessage str ->
-            ( Model input (str :: messages) action prompt windowstyle, Cmd.none )
+            ( { model | messages = (str :: model.messages) }, Cmd.none )
 
 
 

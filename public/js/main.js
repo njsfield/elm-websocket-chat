@@ -9221,57 +9221,50 @@ var _user$project$Main$viewMessage = function (msg) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Main$echoServer = 'ws://localhost:8000';
-var _user$project$Main$Model = F5(
-	function (a, b, c, d, e) {
-		return {input: a, messages: b, action: c, prompt: d, windowstyle: e};
-	});
-var _user$project$Main$init = {
-	ctor: '_Tuple2',
-	_0: A5(
-		_user$project$Main$Model,
-		'',
-		{ctor: '[]'},
-		'Join',
-		'Enter your name to join',
-		'start'),
-	_1: _elm_lang$core$Platform_Cmd$none
+var _user$project$Main$model = {
+	input: '',
+	messages: {ctor: '[]'},
+	action: 'Join',
+	prompt: 'Enter your name to join',
+	windowstyle: 'start'
 };
+var _user$project$Main$init = {ctor: '_Tuple2', _0: _user$project$Main$model, _1: _elm_lang$core$Platform_Cmd$none};
+var _user$project$Main$echoServer = 'ws://localhost:8000';
 var _user$project$Main$update = F2(
-	function (msg, _p0) {
-		var _p1 = _p0;
-		var _p7 = _p1.windowstyle;
-		var _p6 = _p1.prompt;
-		var _p5 = _p1.messages;
-		var _p4 = _p1.input;
-		var _p3 = _p1.action;
-		var _p2 = msg;
-		switch (_p2.ctor) {
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
 			case 'Input':
 				return {
 					ctor: '_Tuple2',
-					_0: A5(_user$project$Main$Model, _p2._0, _p5, _p3, _p6, _p7),
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{input: _p0._0}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'Send':
 				return {
 					ctor: '_Tuple2',
-					_0: A5(_user$project$Main$Model, '', _p5, 'Send', 'Type a message to chat', 'joined'),
-					_1: A2(_elm_lang$websocket$WebSocket$send, _user$project$Main$echoServer, _p4)
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{input: '', action: 'Send', prompt: 'Type a message to chat', windowstyle: 'joined'}),
+					_1: A2(_elm_lang$websocket$WebSocket$send, _user$project$Main$echoServer, model.input)
 				};
 			default:
 				return {
 					ctor: '_Tuple2',
-					_0: A5(
-						_user$project$Main$Model,
-						_p4,
-						{ctor: '::', _0: _p2._0, _1: _p5},
-						_p3,
-						_p6,
-						_p7),
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							messages: {ctor: '::', _0: _p0._0, _1: model.messages}
+						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 		}
+	});
+var _user$project$Main$Model = F5(
+	function (a, b, c, d, e) {
+		return {input: a, messages: b, action: c, prompt: d, windowstyle: e};
 	});
 var _user$project$Main$NewMessage = function (a) {
 	return {ctor: 'NewMessage', _0: a};
@@ -9283,13 +9276,13 @@ var _user$project$Main$Send = {ctor: 'Send'};
 var _user$project$Main$Input = function (a) {
 	return {ctor: 'Input', _0: a};
 };
-var _user$project$Main$view = function (_p8) {
-	var _p9 = _p8;
+var _user$project$Main$view = function (_p1) {
+	var _p2 = _p1;
 	return A2(
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class(_p9.windowstyle),
+			_0: _elm_lang$html$Html_Attributes$class(_p2.windowstyle),
 			_1: {ctor: '[]'}
 		},
 		{
@@ -9313,7 +9306,7 @@ var _user$project$Main$view = function (_p8) {
 						A2(
 							_elm_lang$core$List$map,
 							_user$project$Main$viewMessage,
-							_elm_lang$core$List$reverse(_p9.messages))),
+							_elm_lang$core$List$reverse(_p2.messages))),
 					_1: {
 						ctor: '::',
 						_0: A2(
@@ -9332,10 +9325,10 @@ var _user$project$Main$view = function (_p8) {
 										_0: _elm_lang$html$Html_Events$onInput(_user$project$Main$Input),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$value(_p9.input),
+											_0: _elm_lang$html$Html_Attributes$value(_p2.input),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$placeholder(_p9.prompt),
+												_0: _elm_lang$html$Html_Attributes$placeholder(_p2.prompt),
 												_1: {
 													ctor: '::',
 													_0: _elm_lang$html$Html_Attributes$class('input'),
@@ -9360,7 +9353,7 @@ var _user$project$Main$view = function (_p8) {
 										},
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html$text(_p9.action),
+											_0: _elm_lang$html$Html$text(_p2.action),
 											_1: {ctor: '[]'}
 										}),
 									_1: {ctor: '[]'}

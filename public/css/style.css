@@ -60,7 +60,6 @@ p {
 
 /* Classes */
 .output {
-    border: 1px solid lightgrey;
     height: 30rem;
     padding: 1rem;
     border-radius: .5rem;
@@ -86,17 +85,21 @@ p {
 .start {
   width: 100vw;
   height: 100vh;
-  background-color: #0C3082;
+  background-color: #0A1060;
 }
 
 .start .output {
-  background-color: #7986CB;
-  border: none;
+  background-color: #303F9F;
 }
 .start input {
-  background-color: #FFFDE7;
+  background-color: white;
   color: black;
 }
+
+.start ::-webkit-input-placeholder {
+  color: #FF9800;
+}
+
 .start button {
   background-color: #009688;
 }
@@ -111,7 +114,6 @@ p {
 
 .joined .output {
   background-color: #E8EAF6;
-  border: none;
 }
 .joined input {
   background-color: white;
