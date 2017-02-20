@@ -82,29 +82,26 @@ update msg model =
 
         KeyDown key ->
             if key == 13 then
-                ( { model
-                    | input = ""
-                    , action = "Send"
-                    , prompt = "Type a message to chat"
-                    , windowstyle = "joined"
-                  }
+                ( { model | input = "" }
                 , WebSocket.send model.echoserver model.input
                 )
             else
                 ( model, Cmd.none )
 
         Send ->
-            ( { model
-                | input = ""
-                , action = "Send"
-                , prompt = "Type a message to chat"
-                , windowstyle = "joined"
-              }
+            ( { model | input = "" }
             , WebSocket.send model.echoserver model.input
             )
 
         NewMessage str ->
-            ( { model | messages = (str :: model.messages) }, Cmd.none )
+            ( { model
+                | messages = (str :: model.messages)
+                , action = "Send"
+                , prompt = "Type a message to chat"
+                , windowstyle = "joined"
+              }
+            , Cmd.none
+            )
 
 
 

@@ -9252,7 +9252,7 @@ var _user$project$Main$update = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{input: '', action: 'Send', prompt: 'Type a message to chat', windowstyle: 'joined'}),
+						{input: ''}),
 					_1: A2(_elm_lang$websocket$WebSocket$send, model.echoserver, model.input)
 				} : {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'Send':
@@ -9260,7 +9260,7 @@ var _user$project$Main$update = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{input: '', action: 'Send', prompt: 'Type a message to chat', windowstyle: 'joined'}),
+						{input: ''}),
 					_1: A2(_elm_lang$websocket$WebSocket$send, model.echoserver, model.input)
 				};
 			default:
@@ -9269,7 +9269,10 @@ var _user$project$Main$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							messages: {ctor: '::', _0: _p0._0, _1: model.messages}
+							messages: {ctor: '::', _0: _p0._0, _1: model.messages},
+							action: 'Send',
+							prompt: 'Type a message to chat',
+							windowstyle: 'joined'
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
